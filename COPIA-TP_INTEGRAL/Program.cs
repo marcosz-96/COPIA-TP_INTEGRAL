@@ -262,10 +262,10 @@ namespace TP_INTEGRAL_PROGRAMACION
             }
             return infoDeCerveza;
         }
-        
+
         static void StockConProductoIngresado(Cerveza[] infoDeCerveza, Cerveza[] agregaInfoDeCerveza)
         {
-            
+
             Console.WriteLine("\nEl stock actualizado es:");
             foreach (Cerveza nuevaLista in infoDeCerveza)
             {
@@ -281,8 +281,8 @@ namespace TP_INTEGRAL_PROGRAMACION
                     $"Stock: {nuevaLista.StockCerveza}, " +
                     $"Precio: {nuevaLista.PreciosCerveza}");
             }
-            */
-        
+            
+        }
 
     }
 
