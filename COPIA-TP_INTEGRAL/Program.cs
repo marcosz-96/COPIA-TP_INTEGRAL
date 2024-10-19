@@ -47,8 +47,65 @@ namespace TP_INTEGRAL_PROGRAMACION
                 new Cerveza("BLONDE", "BARRILES", 15, 112000.00),
                 new Cerveza("HONEY", "BARRILES", 29, 112000.00),
             };
+            
+            //ARREGLOS PARA CADA PRODUCTO:
+            Cerveza[] Cerveza1 = new Cerveza[]
+            {
+                new Cerveza("Apa", "Botellas", 450, 3850.00)
+            };
 
-            Console.WriteLine("Bienvenido al programa de Gestión de Inventario!");
+            Cerveza[] Cerveza2 = new Cerveza[]
+            {
+                new Cerveza("Blonde", "Latas", 1500, 1200.00)
+            };
+
+            Cerveza[] Cerveza3 = new Cerveza[]
+            {
+                new Cerveza("Honey", "Botellas", 150, 2890.50)
+            };
+
+            Cerveza[] Cerveza4 = new Cerveza[]
+            {
+                new Cerveza("Porter", "Latas", 1680, 1560.70)
+            };
+
+            Cerveza[] Cerveza5 = new Cerveza[]
+            {
+                new Cerveza("Gladstone", "Botellas", 200, 3790.15)
+            };
+            //LISTAS CON LOS ARREGLOS ANTERIORES:
+            List<Cerveza[]>cervezas = new List<Cerveza[]> { Cerveza1, Cerveza2, Cerveza3, Cerveza4, Cerveza5 };
+            //MOSTRAMOS LOS DATOS EN LA LISTA:
+            /*
+            Console.WriteLine("Lista actual:");
+            foreach (Cerveza[] datos in cervezas) 
+            {
+                foreach (Cerveza cerveza in datos)
+                {
+                    Console.WriteLine($"Estilo: {cerveza.NombreCerveza}, Presentación: {cerveza.PresentacionCerveza}" +
+                        $" Stock: {cerveza.StockCerveza}, Precio: {cerveza.PreciosCerveza}");
+                }
+            }*/
+
+
+            /*
+            Cerveza[] infoDeCerveza2 = {new Cerveza { NombreCerveza = "California", PresentacionCerveza = "Botellas",
+            StockCerveza = 50, PreciosCerveza = 898.56 } };
+
+            Cerveza[] infoDeCerveza3 = {new Cerveza { NombreCerveza = "Algebra", PresentacionCerveza = "Latas",
+            StockCerveza = 150, PreciosCerveza = 89.36 } };
+
+            Cerveza[] infoDeCerveza4 = {new Cerveza { NombreCerveza = "Ipa", PresentacionCerveza = "Latas",
+            StockCerveza = 250, PreciosCerveza = 98.86 } };
+
+            Cerveza[] infoDeCerveza5 = {new Cerveza { NombreCerveza = "California", PresentacionCerveza = "Latas",
+            StockCerveza = 90, PreciosCerveza = 88.76 } };
+
+            Cerveza[] infoDeCerveza6 = {new Cerveza { NombreCerveza = "Scottish", PresentacionCerveza = "Botellas",
+            StockCerveza = 70, PreciosCerveza = 658.77 } };
+            */
+
+            Console.WriteLine("\nBienvenido al programa de Gestión de Inventario!");
             do
             {
                 MensajeYMenu();
@@ -75,15 +132,15 @@ namespace TP_INTEGRAL_PROGRAMACION
                     break;
                 case 2:
                     VerInformacionDeProductos(infoDeCerveza);
-                    StockConProductoIngresado(infoDeCerveza, agregaInfoDeCerveza);
+                    //StockConProductoIngresado(infoDeCerveza, agregaInfoDeCerveza);
                     break;
                 case 3:
-                    IngresarNuevoProducto(infoDeCerveza);
+                    //IngresarNuevoProducto(infoDeCerveza);
                     
                     break;
                 case 4:
-                    EliminarProducto(infoDeCerveza, productoAEliminar);
-                    StockConProductoEliminado(infoDeCerveza);
+                    //EliminarProducto(infoDeCerveza, productoAEliminar);
+                    //StockConProductoEliminado(infoDeCerveza);
                     break;
                 case 5:
                 case 6:
@@ -92,15 +149,15 @@ namespace TP_INTEGRAL_PROGRAMACION
                 default: Console.WriteLine("Opcion invalida"); break;
             }
         }
-        static void BuscarProducto(Cerveza[] infoDeCerveza)
+        static void BuscarProducto(Cerveza[] cerveza)
         {
             Console.Write("\nIngrese el nombre del producto: ");
             productoBuscado = Console.ReadLine().ToUpper();
             bool existe = false;
 
-            for (int i = 0; i < infoDeCerveza.Length; i++)
+            for (int i = 0; i < cerveza.Length; i++)
             {
-                if (productoBuscado == infoDeCerveza[i].NombreCerveza.ToUpper())
+                if (productoBuscado == cerveza[i].NombreCerveza.ToUpper())
                 {
                     Console.WriteLine($"\nEl producto {productoBuscado} se encuentra disponible");
                     existe = true;
@@ -113,47 +170,61 @@ namespace TP_INTEGRAL_PROGRAMACION
             }
 
         }
-        static void VerInformacionDeProductos(Cerveza[] infoDeCerveza)
+        static void VerInformacionDeProductos(Cerveza[] cerveza)
         {
+            Cerveza[] Cerveza1 = new Cerveza[]
+            {
+                new Cerveza("Apa", "Botellas", 450, 3850.00)
+            };
+
+            Cerveza[] Cerveza2 = new Cerveza[]
+            {
+                new Cerveza("Blonde", "Latas", 1500, 1200.00)
+            };
+
+            Cerveza[] Cerveza3 = new Cerveza[]
+            {
+                new Cerveza("Honey", "Botellas", 150, 2890.50)
+            };
+
+            Cerveza[] Cerveza4 = new Cerveza[]
+            {
+                new Cerveza("Porter", "Latas", 1680, 1560.70)
+            };
+
+            Cerveza[] Cerveza5 = new Cerveza[]
+            {
+                new Cerveza("Gladstone", "Botellas", 200, 3790.15)
+            };
+
             Console.WriteLine("\nLos Productos disponibles son:\n");
-            foreach (Cerveza cerveza in infoDeCerveza)
+            List<Cerveza[]> cervezas = new List<Cerveza[]> { Cerveza1, Cerveza2, Cerveza3, Cerveza4, Cerveza5 };
+            foreach (Cerveza[] datos in cervezas)
             {
-                Console.WriteLine($"Nombre: {cerveza.NombreCerveza}, " +
-                    $"Presentación: {cerveza.PresentacionCerveza}, " +
-                    $"Stock: {cerveza.StockCerveza}, " +
-                    $"Precio: {cerveza.PreciosCerveza}");
+                foreach (Cerveza datosDeCerveza in datos)
+                {
+                    Console.WriteLine($"Estilo: {datosDeCerveza.NombreCerveza}, " +
+                        $"Presentación: {datosDeCerveza.PresentacionCerveza}" +
+                        $" Stock: {datosDeCerveza.StockCerveza}, " +
+                        $"Precio: {datosDeCerveza.PreciosCerveza}");
+                }
             }
         }
-        static Cerveza[] EliminarProducto(Cerveza[] infoDeCerveza, string productoAEliminar)
+        static bool EliminarProducto(List<Cerveza[]> cervezas, Cerveza[] arregloAEliminar)
         {
-            int indiceAEliminar = Array.FindIndex(infoDeCerveza, e => e.NombreCerveza.Equals(productoAEliminar, StringComparison.OrdinalIgnoreCase));
-
-            if (indiceAEliminar != -1)
+            //BUSCAMOS Y ELIMINAMOS EL ARREGLO
+            for (int c = 0; c < cervezas.Count; c++)
             {
-                Cerveza[] nuevaInfoDeCerveza = new Cerveza[infoDeCerveza.Length - 1];
-
-                Array.Copy(infoDeCerveza, 0, nuevaInfoDeCerveza, 0, indiceAEliminar);
-                Array.Copy(infoDeCerveza, indiceAEliminar + 1, nuevaInfoDeCerveza, indiceAEliminar, infoDeCerveza.Length - indiceAEliminar - 1);
-                return nuevaInfoDeCerveza;
+                //COMPARAMOS LOS ARREGLOS DENTRO DE LA LISTA. CON EL MÉTODO SequenceEqual SE COMPARAN LOS ARREGLOS
+                if (cervezas[c].Length == arregloAEliminar.Length && cervezas[c].SequenceEqual(arregloAEliminar))
+                {
+                    cervezas.RemoveAt(c);
+                    return true; //SI SE ELIMINA EL ARREGLO
+                }
             }
-            return infoDeCerveza;
+            return false; //EL ARREGLO NO ESTÁ EN LA LISTA
         }
-        static void StockConProductoEliminado(Cerveza[] infoDeCerveza)
-        {
-            Console.Write("\nIngrese el nombre del producto que desea eliminar: ");
-            string productoAEliminar = Console.ReadLine();
-
-            infoDeCerveza = EliminarProducto(infoDeCerveza, productoAEliminar);
-
-            Console.WriteLine("\nEl stock actualizado es:");
-            foreach (Cerveza nuevaLista in infoDeCerveza)
-            {
-                Console.WriteLine($"Nombre: {nuevaLista.NombreCerveza}, " +
-                    $"Presentación: {nuevaLista.PresentacionCerveza}, " +
-                    $"Stock: {nuevaLista.StockCerveza}, " +
-                    $"Precio: {nuevaLista.PreciosCerveza}");
-            }
-        }
+        
 
         static Cerveza[] IngresarNuevoProducto(Cerveza[] infoDeCerveza)
         {
@@ -210,8 +281,8 @@ namespace TP_INTEGRAL_PROGRAMACION
                     $"Stock: {nuevaLista.StockCerveza}, " +
                     $"Precio: {nuevaLista.PreciosCerveza}");
             }
-
-        }
+            */
+        
 
     }
 
