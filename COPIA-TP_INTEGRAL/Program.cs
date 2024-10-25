@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
+using System.Net;
 using System.Runtime.CompilerServices;
 using System.Security.AccessControl;
 using System.Text;
@@ -40,7 +41,7 @@ namespace TP_INTEGRAL_PROGRAMACION
             /*La idea principal de programa es trabajar con datos ya cargados
              pero a la vez poder modificarlos, ya sea para eliminar o añadir productos*/
 
-            //LISTAS CON LOS ARREGLOS ANTERIORES:
+            
             List<Datos[]> cervezas = new List<Datos[]>();
 
             Console.WriteLine("\nBienvenido al programa de Gestión de Inventario!");
@@ -80,23 +81,35 @@ namespace TP_INTEGRAL_PROGRAMACION
                     break;
                 case 5:
                     Ventas(cervezas);
+                    RealizarPresupuesto(cervezas);
                     break;
                 case 6:
                     Console.WriteLine("Fin del programa");
                     break;
-                default: Console.WriteLine("Opcion invalida"); break;
+                default: Console.WriteLine("Opcion invalida. Ingrese una opción válida");
+                    break;
             }
         }
         static void BuscarProducto(List<Datos[]> cervezas, string productoBuscado)
         {
-            //VERIFICAMOS QUE EL INDICE QUE BUSCAMOS ESTÉ DENTRO DE LA LISTA
+            bool continuarBuscando = true;
+
+            while (continuarBuscando)
             {
-                Console.Write("\nIngrese el estilo del producto: ");
+                Console.Write("\nIngrese el estilo del producto (o 'menu' para volver al menú): ");
                 productoBuscado = Console.ReadLine();
+
+                if (productoBuscado == "menu")
+                {
+                    continuarBuscando = false;//SALE DE BUCLE Y VUELVE AL MENÚ
+                    continue;
+                }
+
                 bool existe = false;
 
                 for (int i = 0; i < cervezas.Count; i++)
                 {
+                    //VERIFICAMOS QUE EL INDICE QUE BUSCAMOS ESTÉ DENTRO DE LA LISTA
                     var cerveza = cervezas[i][0];
 
                     if (cerveza.Estilo.ToLower().Contains(productoBuscado.ToLower()))
@@ -114,108 +127,142 @@ namespace TP_INTEGRAL_PROGRAMACION
                 {
                     Console.WriteLine("El producto no se encuentra disponible");
                 }
-
             }
         }
         static void VerInformacionDeProductos(List<Datos[]> cervezas)
         {
-            if (cervezas.Count == 0)
-            {
-                Console.WriteLine("No hay productos disponibles.");
-                return;
-            }
+            bool continuarViendo = true;
 
-            Console.WriteLine("\nLos Productos disponibles son:\n");
-
-            List<Datos[]> cerveza = new List<Datos[]>();
-            for (int c = 0; c < cervezas.Count; c++)
+            while (continuarViendo)
             {
-                Console.WriteLine("Producto {0}:", c + 1);
-                foreach (var datosDeCerveza in cervezas[c])
+                //COMPARA SI HAY DATOS DENTRO DE LA LISTA
+                if (cervezas.Count == 0)
                 {
-                    Console.WriteLine($"Estilo:        {datosDeCerveza.Estilo}");
-                    Console.WriteLine($"Presentación:  {datosDeCerveza.Presentacion}");
-                    Console.WriteLine($"Stock:         {datosDeCerveza.Stock}");
-                    Console.WriteLine($"Precio:        {datosDeCerveza.Precio} $");
+                    //SI NO ES ASÍ NOS MUESTRA EL SIGUIENTE MENSAJE
+                    Console.WriteLine("No hay productos ingresados.");
+                    return;
                 }
-            }   
+                //CASO CONTRARIO NOS MUESTRA LOS PRODUCTOS DISPONIBLES
+                Console.WriteLine("\nLos Productos disponibles son:\n");
+
+                List<Datos[]> cerveza = new List<Datos[]>();
+                for (int c = 0; c < cervezas.Count; c++)
+                {
+                    Console.WriteLine("Producto {0}:", c + 1);
+                    foreach (var datosDeCerveza in cervezas[c])
+                    {
+                        Console.WriteLine($"Estilo:        {datosDeCerveza.Estilo}");
+                        Console.WriteLine($"Presentación:  {datosDeCerveza.Presentacion}");
+                        Console.WriteLine($"Stock:         {datosDeCerveza.Stock}");
+                        Console.WriteLine($"Precio:        {datosDeCerveza.Precio} $");
+                    }
+                }
+                //LUEGO SOLICITA AL USUARIO QUE PRESIONE UNA TECLA PARA CONTINUAR AL MENU 
+                Console.WriteLine("\nPresione 'Enter' para volver al menú.");
+                Console.ReadLine();
+                continuarViendo = false;
+            }
         }
         static void EliminarProducto(List<Datos[]> cervezas, string productoAEliminar)
         {
-            //SOLICITAMOS AL USURARIO EL NOMBRE DEL PRODUCTO
-            Console.WriteLine("\nIngrese el nombre del producto que desea eliminar: ");
-            productoAEliminar = Console.ReadLine();
+            bool continuarEliminando = true;
 
-            //RECORREMOS LA LISTA Y BUSCAMOS EL ARREGLO QUE COINCIDA CON LO QUE INGRESE EL USUARIO
-            bool encontrado = false;
-            for (int c = 0; c < cervezas.Count; c++)
+            while (continuarEliminando)
             {
-                //LUEGO VERIFICAMOS SI EXISTE EL ARREGLO CON EL NOMBRE QUE INGRESO EL USUARIO
-                foreach (var nombre in cervezas[c])
+                //SOLICITAMOS AL USURARIO EL NOMBRE DEL PRODUCTO
+                Console.WriteLine("\nIngrese el estilo del producto que desea eliminar (o 'menu' para volver al menú): ");
+                productoAEliminar = Console.ReadLine();
+
+                if (productoAEliminar == "menu")
                 {
-                    //LO QUE HACE ES COMPARAR LOS ELEMENTOS DEL ARREGLO IGNORANDO LA FORMA DE ESCRITURA (camelCase) EN ESTE CASO
-                    if (nombre.Estilo.Equals(productoAEliminar, StringComparison.OrdinalIgnoreCase))
-                    {
-                        cervezas.RemoveAt(c);
-                        Console.WriteLine("\nEl producto fue eliminado exitosamente de la lista");
-                        encontrado = true;
-                        break;
-                    }
+                    continuarEliminando = false;//SALE DEL BUCLE Y VUELVE AL MENÚ
+                    continue;
                 }
-                //SALIMOS EL BUCLE SI SE ENCONTRÓ Y ELIMININÓ EL ARREGLO
-                if (encontrado)
-                    break;
-            }
-            //EN CASO DE QUE NO SE ENCUENTRE LO QUE BUSCA EL USUARIO
-            if (!encontrado)
-            {
-                Console.WriteLine("\nNo se encontró el producto. Asegurate de ingresar bien el nombre");
+                //RECORREMOS LA LISTA Y BUSCAMOS EL ARREGLO QUE COINCIDA CON LO QUE INGRESE EL USUARIO
+                bool encontrado = false;
+
+                for (int c = 0; c < cervezas.Count; c++)
+                {
+                    //LUEGO VERIFICAMOS SI EXISTE EL ARREGLO CON EL NOMBRE QUE INGRESO EL USUARIO
+                    foreach (var nombre in cervezas[c])
+                    {
+                        //LO QUE HACE ES COMPARAR LOS ELEMENTOS DEL ARREGLO IGNORANDO LA FORMA DE ESCRITURA (camelCase) EN ESTE CASO
+                        if (nombre.Estilo.Equals(productoAEliminar, StringComparison.OrdinalIgnoreCase))
+                        {
+                            cervezas.RemoveAt(c);
+                            Console.WriteLine($"\nEl producto {productoAEliminar} fue eliminado exitosamente de la lista");
+                            encontrado = true;
+                            break;
+                        }
+                    }
+                    //SALIMOS EL BUCLE SI SE ENCONTRÓ Y ELIMININÓ EL ARREGLO
+                    if (encontrado)
+                        break;
+                }
+                //EN CASO DE QUE NO SE ENCUENTRE LO QUE BUSCA EL USUARIO
+                if (!encontrado)
+                {
+                    Console.WriteLine("\nNo se encontró el producto. Asegurate de ingresar bien el nombre");
+                }
             }
         }
         static void IngresarNuevoProducto(List<Datos[]> cervezas, int cantidadAIngresar)
         {
-            //SOLICITAMOS Y VERIFICAMOS QUE EL USUARIO INGRESE CORRECTAMENTE LA CANTIDAD DE PRODUCTOS QUE VA A AGREGAR AL LA LISTA
-            Console.Write("\nCuantos productos desea ingresar a la lista?: ");
-            if (int.TryParse(Console.ReadLine(), out cantidadAIngresar) && cantidadAIngresar > 0) 
+            bool continuarIngresando = true;
+
+            while (continuarIngresando)
             {
-                //CREAMOS UN NUEVO ARREGLO PARA LOS DATOS DEL NUEVO PRODUCTO
-                Datos[] nuevoProducto = new Datos[cantidadAIngresar];
-                bool existe = false;
-                //SOLICITAMOS LA INFORMACION NECESARIA
-                for (int n = 0; n < cantidadAIngresar; n++)// n = nuevo
+                //SOLICITAMOS Y VERIFICAMOS QUE EL USUARIO INGRESE CORRECTAMENTE LA CANTIDAD DE PRODUCTOS QUE VA A AGREGAR AL LA LISTA
+                Console.Write("\nCuantos productos desea ingresar a la lista? (o 'menu' para volver al menú): ");
+                string ingresa = Console.ReadLine();
+
+                if (ingresa == "menu")
                 {
-                    Console.WriteLine($"\nIngrese los datos del Producto:");
-                    Console.Write("\nEstilo: ");
-                    string estilo = Console.ReadLine();
-
-                    Console.Write("Presentación: ");
-                    string presentacion = Console.ReadLine();
-
-                    Console.Write("Stock: ");
-                    if (!int.TryParse(Console.ReadLine(), out int stock))
-                    {
-                        Console.WriteLine("Valor inválido. Se ingresará 0.");
-                        stock = 0; //EN CASO DE NO SER UN VALOR DEL TIPO DESEADO SE COMPLETA CON 0
-                    }
-
-                    Console.Write("Precio: ");
-                    if (!double.TryParse(Console.ReadLine(), out double precio))
-                    {
-                        Console.WriteLine("Valor inválido. Se ingresará 0.");
-                        precio = 0.0;//EN CASO DE NO SER UN VALOR DEL TIPO DESEADO SE COMPLETA CON 0.0
-                    }
-                    nuevoProducto[n] = new Datos(estilo, presentacion, stock, precio);
-                    existe = true;
+                    continuarIngresando = false;
+                    continue;
                 }
-                if (existe == true)
+
+                if (int.TryParse(ingresa, out cantidadAIngresar) && cantidadAIngresar > 0)
                 {
-                    cervezas.Add(nuevoProducto);
-                    //StockActualizado(cervezas);
+                    //CREAMOS UN NUEVO ARREGLO PARA LOS DATOS DEL NUEVO PRODUCTO
+                    Datos[] nuevoProducto = new Datos[cantidadAIngresar];
+                    bool existe = false;
+                    //SOLICITAMOS LA INFORMACION NECESARIA
+                    for (int n = 0; n < cantidadAIngresar; n++)// n = nuevo
+                    {
+                        Console.WriteLine($"\nIngrese los datos del Producto:");
+                        Console.Write("\nEstilo: ");
+                        string estilo = Console.ReadLine();
+
+                        Console.Write("Presentación: ");
+                        string presentacion = Console.ReadLine();
+
+                        Console.Write("Stock: ");
+                        if (!int.TryParse(Console.ReadLine(), out int stock))
+                        {
+                            Console.WriteLine("Valor inválido. Se ingresará 0.");
+                            stock = 0; //EN CASO DE NO SER UN VALOR DEL TIPO DESEADO SE COMPLETA CON 0
+                        }
+
+                        Console.Write("Precio: ");
+                        if (!double.TryParse(Console.ReadLine(), out double precio))
+                        {
+                            Console.WriteLine("Valor inválido. Se ingresará 0.");
+                            precio = 0.0;//EN CASO DE NO SER UN VALOR DEL TIPO DESEADO SE COMPLETA CON 0.0
+                        }
+                        nuevoProducto[n] = new Datos(estilo, presentacion, stock, precio);
+                        existe = true;
+                    }
+                    if (existe == true)
+                    {
+                        cervezas.Add(nuevoProducto);
+                        Console.WriteLine("Producto ingresado exitosamente!");
+                    }
                 }
-            }
-            else if (existe != true)
-            {
-                Console.WriteLine("Valor inválido. Ingrese un número mayor que 0");
+                else if (existe != true)
+                {
+                    Console.WriteLine("Valor inválido. Ingrese un número mayor que 0");
+                }
             }
         }
         static void StockActualizado(List<Datos[]> cervezas, int cantidadAIngresar, string productoAEliminar)
@@ -233,6 +280,46 @@ namespace TP_INTEGRAL_PROGRAMACION
                 }
             }
         }
+        static void RealizarPresupuesto(List<Datos[]> cervezas)
+        {
+            bool continuarPresupuestando = true;
+
+            while (continuarPresupuestando)
+            {
+                Console.Write("\nIngrese el estilo del producto para calcular el presupuesto (o 'menu' para volver al menú): ");
+                string estiloPresupuesto = Console.ReadLine();
+
+                if (estiloPresupuesto == "menu")
+                {
+                    continuarPresupuestando = false; // Salir del bucle y volver al menú
+                    continue;
+                }
+
+                double total = 0.0;
+                bool existe = false;
+
+                for (int i = 0; i < cervezas.Count; i++)
+                {
+                    var cerveza = cervezas[i][0];
+
+                    if (cerveza.Estilo.ToLower().Contains(estiloPresupuesto.ToLower()))
+                    {
+                        total += cerveza.Precio * cerveza.Stock;
+                        existe = true;
+                    }
+                }
+
+                if (existe)
+                {
+                    Console.WriteLine($"El total del presupuesto para {estiloPresupuesto} es: {total} $");
+                }
+                else
+                {
+                    Console.WriteLine("No se encontraron productos para el estilo ingresado.");
+                }
+            }
+        }
+
         static void Ventas(List<Datos[]> cervezas)
         {
 
