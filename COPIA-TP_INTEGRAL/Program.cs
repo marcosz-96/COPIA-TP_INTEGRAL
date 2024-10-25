@@ -17,7 +17,7 @@ namespace TP_INTEGRAL_PROGRAMACION
         static bool existe = false;
         static int opcion, cantidadAIngresar;
         static string productoBuscado, productoAEliminar;
-        
+
 
         public struct Datos
         {
@@ -35,13 +35,13 @@ namespace TP_INTEGRAL_PROGRAMACION
                 Precio = precio;
             }
         }
-        
+
         static void Main(string[] args)
         {
             /*La idea principal de programa es trabajar con datos ya cargados
              pero a la vez poder modificarlos, ya sea para eliminar o añadir productos*/
 
-            
+
             List<Datos[]> cervezas = new List<Datos[]>();
 
             Console.WriteLine("\nBienvenido al programa de Gestión de Inventario!");
@@ -51,7 +51,7 @@ namespace TP_INTEGRAL_PROGRAMACION
                 opcion = int.Parse(Console.ReadLine());
                 IngresoAlMenu(opcion, productoAEliminar, productoBuscado, cantidadAIngresar, cervezas);
             } while (opcion != 6);
-            
+
         }
         static void MensajeYMenu()
         {
@@ -86,7 +86,8 @@ namespace TP_INTEGRAL_PROGRAMACION
                 case 6:
                     Console.WriteLine("Fin del programa");
                     break;
-                default: Console.WriteLine("Opcion invalida. Ingrese una opción válida");
+                default:
+                    Console.WriteLine("Opcion invalida. Ingrese una opción válida");
                     break;
             }
         }
@@ -394,5 +395,4 @@ namespace TP_INTEGRAL_PROGRAMACION
             }
         }
     }
-
 }
