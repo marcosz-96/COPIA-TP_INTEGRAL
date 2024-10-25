@@ -102,10 +102,10 @@ namespace TP_INTEGRAL_PROGRAMACION
                     if (cerveza.Estilo.ToLower().Contains(productoBuscado.ToLower()))
                     {
                         Console.WriteLine($"\nEl producto {productoBuscado} se encuentra disponible");
-                        Console.WriteLine($"Nombre: {cerveza.Estilo}, " +
-                        $"Presentación: {cerveza.Presentacion}, " +
-                        $"Stock: {cerveza.Stock}, " +
-                        $"Precio: {cerveza.Precio}");
+                        Console.WriteLine($"Estilo:        {cerveza.Estilo}");
+                        Console.WriteLine($"Presentación:  {cerveza.Presentacion}");
+                        Console.WriteLine($"Stock:         {cerveza.Stock}");
+                        Console.WriteLine($"Precio:        {cerveza.Precio} $");
                         existe = true;
                         break;
                     }
@@ -121,7 +121,6 @@ namespace TP_INTEGRAL_PROGRAMACION
         {
             Console.WriteLine("\nLos Productos disponibles son:\n");
 
-            
             List<Datos[]> cerveza = new List<Datos[]>();
             for (int c = 0; c < cervezas.Count; c++)
             {
@@ -133,8 +132,7 @@ namespace TP_INTEGRAL_PROGRAMACION
                     Console.WriteLine($"Stock:         {datosDeCerveza.Stock}");
                     Console.WriteLine($"Precio:        {datosDeCerveza.Precio} $");
                 }
-            }
-            
+            }   
         }
         static void EliminarProducto(List<Datos[]> cervezas, string productoAEliminar)
         {
