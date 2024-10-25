@@ -119,6 +119,12 @@ namespace TP_INTEGRAL_PROGRAMACION
         }
         static void VerInformacionDeProductos(List<Datos[]> cervezas)
         {
+            if (cervezas.Count == 0)
+            {
+                Console.WriteLine("No hay productos disponibles.");
+                return;
+            }
+
             Console.WriteLine("\nLos Productos disponibles son:\n");
 
             List<Datos[]> cerveza = new List<Datos[]>();
