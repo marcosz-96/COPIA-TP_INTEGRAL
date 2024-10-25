@@ -81,7 +81,6 @@ namespace TP_INTEGRAL_PROGRAMACION
                     break;
                 case 5:
                     Ventas(cervezas);
-                    RealizarPresupuesto(cervezas);
                     break;
                 case 6:
                     Console.WriteLine("Fin del programa");
@@ -281,46 +280,6 @@ namespace TP_INTEGRAL_PROGRAMACION
                 }
             }
         }
-        static void RealizarPresupuesto(List<Datos[]> cervezas)
-        {
-            bool continuarPresupuestando = true;
-
-            while (continuarPresupuestando)
-            {
-                Console.Write("\nIngrese el estilo del producto para calcular el presupuesto (o 'menu' para volver al menú): ");
-                string estiloPresupuesto = Console.ReadLine();
-
-                if (estiloPresupuesto == "menu")
-                {
-                    continuarPresupuestando = false; // Salir del bucle y volver al menú
-                    continue;
-                }
-
-                double total = 0.0;
-                bool existe = false;
-
-                for (int i = 0; i < cervezas.Count; i++)
-                {
-                    var cerveza = cervezas[i][0];
-
-                    if (cerveza.Estilo.ToLower().Contains(estiloPresupuesto.ToLower()))
-                    {
-                        total += cerveza.Precio * cerveza.Stock;
-                        existe = true;
-                    }
-                }
-
-                if (existe)
-                {
-                    Console.WriteLine($"El total del presupuesto para {estiloPresupuesto} es: {total} $");
-                }
-                else
-                {
-                    Console.WriteLine("No se encontraron productos para el estilo ingresado.");
-                }
-            }
-        }
-
         static void Ventas(List<Datos[]> cervezas)
         {
 
